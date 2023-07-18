@@ -6,8 +6,15 @@ class TaskDetailsView extends StatefulWidget {
 }
 
 class _TaskDetailsViewState extends State<TaskDetailsView> {
-  // TODO: Replace with your actual data
-  final String task = 'Task 1';
+  final ApiService apiService = ApiService('http://localhost:8000');
+  Future<dynamic> task;
+
+  @override
+  void initState() {
+    super.initState();
+    // Replace '1' with the actual task ID
+    task = apiService.getTask(1);
+  }
 
   @override
   Widget build(BuildContext context) {

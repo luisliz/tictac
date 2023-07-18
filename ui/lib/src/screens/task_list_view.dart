@@ -6,8 +6,14 @@ class TaskListView extends StatefulWidget {
 }
 
 class _TaskListViewState extends State<TaskListView> {
-  // TODO: Replace with your actual data
-  final List<String> tasks = <String>['Task 1', 'Task 2', 'Task 3'];
+  final ApiService apiService = ApiService('http://localhost:8000');
+  Future<List<dynamic>> tasks;
+
+  @override
+  void initState() {
+    super.initState();
+    tasks = apiService.getTasks();
+  }
 
   @override
   Widget build(BuildContext context) {
