@@ -12,6 +12,8 @@ pub async fn get_tasks(db: web::Data<PoolType>) -> impl Responder {
         _ => HttpResponse::InternalServerError().into(),
     }
 }
+
+// Implement create_task, get_task, update_task, delete_task similarly
     }
 
     // Implement create_task, get_task, update_task, delete_task similarly

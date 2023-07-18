@@ -12,6 +12,8 @@ pub async fn get_projects(db: web::Data<PoolType>) -> impl Responder {
         _ => HttpResponse::InternalServerError().into(),
     }
 }
+
+// Implement create_project, get_project, update_project, delete_project similarly
     }
 
     // Implement get_project, create_project, update_project, delete_project similarly
