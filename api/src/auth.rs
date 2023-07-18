@@ -1,27 +1,33 @@
     use crate::models::User;
     use actix_web::{web, HttpResponse, Responder};
     use bcrypt::verify;
-    use jsonwebtoken::{encode, EncodingKey, Header, Algorithm};
+    use jsonwebtoken::{encode, EncodingKey, Header};
     use serde::Serialize;
+    use sqlx::PgPool;
+    use diesel::prelude::*;
+    use diesel::dsl::insert_into;
+    use crate::schema::users::table as users;
+    use crate::schema::users::dsl::username;
 
     #[derive(Serialize)]
     struct Token {
         token: String,
     }
 
-    pub async fn signup(user: web::Json<User>, db: web::Data<PoolType>) -> impl Responder {
-        use crate::schema::users::dsl::*;
+    #[derive(Debug, Serialize, Deserialize)]
+    struct Claims {
+        sub: String,
+    }
 
+    pub async fn signup(user: web::Json<User>, db: web::Data<PgPool>) -> impl Responder {
         let connection = db.get().unwrap();
         let new_user = User::new(user.name.clone(), user.email.clone(), user.password.clone());
-        diesel::insert_into(users).values(&new_user).execute(&connection).unwrap();
+        insert_into(users).values(&new_user).execute(&connection).unwrap();
 
         HttpResponse::Ok().finish()
     }
 
-    pub async fn login(user: web::Json<User>, db: web::Data<PoolType>) -> impl Responder {
-        use crate::schema::users::dsl::*;
-
+    pub async fn login(user: web::Json<User>, db: web::Data<PgPool>) -> impl Responder {
         let connection = db.get().unwrap();
         let result = users.filter(username.eq(&user.username)).first::<User>(&connection);
 
