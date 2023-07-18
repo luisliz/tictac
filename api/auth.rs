@@ -14,7 +14,7 @@
         use crate::schema::users::dsl::*;
 
         let connection = db.get().unwrap();
-        let new_user = User::new(user.username.clone(), user.email.clone(), user.password.clone());
+        let new_user = User::new(user.name.clone(), user.email.clone(), user.password.clone());
         diesel::insert_into(users).values(&new_user).execute(&connection).unwrap();
 
         HttpResponse::Ok().finish()
