@@ -1,2 +1,4 @@
 aider_history 
 .aider*
+api/target/*
+api/target/
