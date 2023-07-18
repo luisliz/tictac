@@ -13,4 +13,6 @@ futures = "0.3"
 serde = { version = "1.0", features = ["derive"] }
 tokio = {optional = true, version = "1.8.4"}
 diesel = { version = "2.1.0", features = ["postgres"] }
+bcrypt = "0.10.1"
+jsonwebtoken = "7.2.0"
 dotenvy = "0.15"
