@@ -1,11 +1,4 @@
-    table! {
-        users (id) {
-            id -> Int4,
-            name -> Varchar,
-            email -> Varchar,
-            password_hash -> Varchar,
-        }
-    }
+    // With sqlx, we don't need to define the schema in code. We can use SQL queries directly.
 
     table! {
         tasks (id) {

@@ -9,16 +9,20 @@ mod handlers;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    use diesel::r2d2::{self, ConnectionManager};
-    use diesel::PgConnection;
+use sqlx::postgres::PgPoolOptions;
+use meilisearch_sdk::client::*;
 
-    dotenv().ok();
+dotenv().ok();
 
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let manager = ConnectionManager::<PgConnection>::new(database_url);
-    let pool = r2d2::Pool::builder()
-        .build(manager)
-        .expect("Failed to create pool.");
+let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+let pool = PgPoolOptions::new()
+    .max_connections(5)
+    .connect(&database_url)
+    .await
+    .expect("Failed to create pool.");
+
+let meilisearch_url = env::var("MEILISEARCH_URL").expect("MEILISEARCH_URL must be set");
+let meilisearch_client = Client::new(&meilisearch_url, "");
 
     HttpServer::new(|| {
         App::new()
