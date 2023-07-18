@@ -48,3 +48,12 @@ let pool = PgPoolOptions::new()
     .run()
     .await
 }
+use crate::db;
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let pool = db::connect().await?;
+    db::migrate(&pool).await?;
+    // rest of your application startup code
+    Ok(())
+}
