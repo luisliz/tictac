@@ -1,4 +1,4 @@
-use crate::models::List;
+use crate::models::list;
 use sqlx::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
 

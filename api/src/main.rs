@@ -3,14 +3,13 @@ use dotenv::dotenv;
 use std::env;
 
 mod models;
+mod handlers;
 mod schema;
 mod auth;
-mod handlers;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
 use sqlx::postgres::PgPoolOptions;
-use meilisearch_sdk::client::*;
 
 dotenv().ok();
 
@@ -21,8 +20,8 @@ let pool = PgPoolOptions::new()
     .await
     .expect("Failed to create pool.");
 
-let meilisearch_url = env::var("MEILISEARCH_URL").expect("MEILISEARCH_URL must be set");
-let meilisearch_client = Client::new(&meilisearch_url, "");
+//let meilisearch_url = env::var("MEILISEARCH_URL").expect("MEILISEARCH_URL must be set");
+//let meilisearch_client = Client::new(&meilisearch_url, "");
 
     HttpServer::new(|| {
         App::new()

@@ -1,5 +1,4 @@
     use crate::models::User;
-    use diesel::prelude::*;
     use actix_web::{web, HttpResponse, Responder};
     use bcrypt::verify;
     use jsonwebtoken::{encode, EncodingKey, Header, Algorithm};
