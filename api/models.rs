@@ -28,6 +28,12 @@
         pub name: String,
         pub user_id: i32,
     }
+
+    #[derive(Queryable)]
+    pub struct Tag {
+        pub id: i32,
+        pub name: String,
+    }
     #[derive(Queryable)]
     pub struct Task {
         pub id: i32,
