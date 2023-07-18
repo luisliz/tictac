@@ -1,17 +1,17 @@
-    use crate::models::Project;
-    use diesel::prelude::*;
-    use actix_web::{web, HttpResponse, Responder};
+use crate::models::Project;
+use sqlx::prelude::*;
+use actix_web::{web, HttpResponse, Responder};
 
-    pub async fn get_projects(db: web::Data<PoolType>) -> impl Responder {
-        use crate::schema::projects::dsl::*;
+pub async fn get_projects(db: web::Data<PoolType>) -> impl Responder {
+    let result = sqlx::query_as::<_, Project>("SELECT * FROM projects")
+        .fetch_all(db.get_ref())
+        .await;
 
-        let connection = db.get().unwrap();
-        let result = projects.load::<Project>(&connection);
-
-        match result {
-            Ok(projects) => HttpResponse::Ok().json(projects),
-            _ => HttpResponse::InternalServerError().into(),
-        }
+    match result {
+        Ok(projects) => HttpResponse::Ok().json(projects),
+        _ => HttpResponse::InternalServerError().into(),
+    }
+}
     }
 
     // Implement get_project, create_project, update_project, delete_project similarly

@@ -1,17 +1,17 @@
-    use crate::models::Task;
-    use diesel::prelude::*;
-    use actix_web::{web, HttpResponse, Responder};
+use crate::models::Task;
+use sqlx::prelude::*;
+use actix_web::{web, HttpResponse, Responder};
 
-    pub async fn get_tasks(db: web::Data<PoolType>) -> impl Responder {
-        use crate::schema::tasks::dsl::*;
+pub async fn get_tasks(db: web::Data<PoolType>) -> impl Responder {
+    let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks")
+        .fetch_all(db.get_ref())
+        .await;
 
-        let connection = db.get().unwrap();
-        let result = tasks.load::<Task>(&connection);
-
-        match result {
-            Ok(tasks) => HttpResponse::Ok().json(tasks),
-            _ => HttpResponse::InternalServerError().into(),
-        }
+    match result {
+        Ok(tasks) => HttpResponse::Ok().json(tasks),
+        _ => HttpResponse::InternalServerError().into(),
+    }
+}
     }
 
     // Implement create_task, get_task, update_task, delete_task similarly
