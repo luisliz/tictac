@@ -25,9 +25,12 @@ I'm not an expert in rust or flutter so please be careful, suggestions are welco
 - I started by using aider in combination with the rust api to implement the UI. But I thought maybe using gpt-engineer together with a spec from claude would be a better option. 
 - I tried to use gpt-enginner but giving the rust api reference with aider seems to work better for me. 
 
+### Costs
+- ~ $15 gpt-4 api.
+- 12 hours of my time (and counting)
+
 ## Conclusions
 - Now I just have to spend a long time debugging the code and fixing the errors. I could leverage ai but I think it would be faster to do it myself.
  
-## Costs
-- ~ $15 gpt-4 api. 
-- 12 hours of my time (and counting)
+### Results 
+TBD 
