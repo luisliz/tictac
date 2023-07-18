@@ -78,9 +78,3 @@ pub async fn delete_task(db: web::Data<PoolType>, task_id: web::Path<i32>) -> im
         _ => HttpResponse::InternalServerError().into(),
     }
 }
-
-// Implement create_task, get_task, update_task, delete_task similarly
-    }
-
-    // Implement create_task, get_task, update_task, delete_task similarly
-    // Implement get_projects, get_project, create_project, update_project, delete_project similarly to tasks
