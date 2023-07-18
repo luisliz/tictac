@@ -2,8 +2,6 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
-mod models;
-mod handlers;
 mod schema;
 mod auth;
 
