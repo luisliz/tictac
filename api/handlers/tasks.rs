@@ -14,6 +14,54 @@ pub async fn get_tasks(db: web::Data<PoolType>) -> impl Responder {
     }
 }
 
+pub async fn get_tasks_by_user(db: web::Data<PoolType>, user_id: web::Path<i32>) -> impl Responder {
+    let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE created_by = $1")
+        .bind(user_id.into_inner())
+        .fetch_all(db.get_ref())
+        .await;
+
+    match result {
+        Ok(tasks) => HttpResponse::Ok().json(tasks),
+        _ => HttpResponse::InternalServerError().into(),
+    }
+}
+
+pub async fn get_tasks_by_list(db: web::Data<PoolType>, list_id: web::Path<i32>) -> impl Responder {
+    let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE list_id = $1")
+        .bind(list_id.into_inner())
+        .fetch_all(db.get_ref())
+        .await;
+
+    match result {
+        Ok(tasks) => HttpResponse::Ok().json(tasks),
+        _ => HttpResponse::InternalServerError().into(),
+    }
+}
+
+pub async fn get_tasks_by_project(db: web::Data<PoolType>, project_id: web::Path<i32>) -> impl Responder {
+    let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE project_id = $1")
+        .bind(project_id.into_inner())
+        .fetch_all(db.get_ref())
+        .await;
+
+    match result {
+        Ok(tasks) => HttpResponse::Ok().json(tasks),
+        _ => HttpResponse::InternalServerError().into(),
+    }
+}
+
+pub async fn get_tasks_by_status(db: web::Data<PoolType>, status: web::Path<String>) -> impl Responder {
+    let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE status = $1")
+        .bind(status.into_inner())
+        .fetch_all(db.get_ref())
+        .await;
+
+    match result {
+        Ok(tasks) => HttpResponse::Ok().json(tasks),
+        _ => HttpResponse::InternalServerError().into(),
+    }
+}
+
 pub async fn get_task(db: web::Data<PoolType>, task_id: web::Path<i32>) -> impl Responder {
     let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE id = $1 AND created_by = $2")
         .bind(task_id.into_inner())
