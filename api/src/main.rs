@@ -4,22 +4,20 @@ use std::env;
 
 mod schema;
 mod auth;
+mod handlers; // Added this line to import the handlers module
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-use sqlx::postgres::PgPoolOptions;
+    use sqlx::postgres::PgPoolOptions;
 
-dotenv().ok();
+    dotenv().ok();
 
-let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-let pool = PgPoolOptions::new()
-    .max_connections(5)
-    .connect(&database_url)
-    .await
-    .expect("Failed to create pool.");
-
-//let meilisearch_url = env::var("MEILISEARCH_URL").expect("MEILISEARCH_URL must be set");
-//let meilisearch_client = Client::new(&meilisearch_url, "");
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let pool = PgPoolOptions::new()
+        .max_connections(5)
+        .connect(&database_url)
+        .await
+        .expect("Failed to create pool.");
 
     HttpServer::new(|| {
         App::new()
@@ -46,6 +44,7 @@ let pool = PgPoolOptions::new()
     .run()
     .await
 }
+
 use crate::db;
 
 #[tokio::main]
