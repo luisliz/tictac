@@ -13,7 +13,8 @@ I'm not an expert in rust or flutter so please be careful, suggestions are welco
 - GPT-Engineer
 
 ## Prompts 
-- I didn't save prompts since I didn't really do anything special I mostly gave the data to claude and then refined based on each response from the respective AI. Commits have a lot of the prompts made by aider.
+- I didn't save prompts since I didn't really do anything special I mostly gave the data to claude and then refined based on each response from the respective AI. Commits have a lot of the prompts made by aider
+- It's important to hold the AI's hand and go step by step instead of trying to do it all at once. e.g. instead of "Implement all the handlers" I would do "Implement the tasks.dart based on tasks.rs".
 
 ## Workflow 
 ### Api & Design 
