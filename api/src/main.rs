@@ -1,3 +1,4 @@
+// api/src/main.rs
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
@@ -13,19 +14,21 @@ async fn run() -> std::io::Result<()> {
     let pool = db::connect().await?;
     db::migrate(&pool).await?;
 
-    use sqlx::postgres::PgPoolOptions;
+    use diesel::pg::PgConnection;
+    use diesel::r2d2::{ConnectionManager, Pool};
 
     dotenv().ok();
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let pool = PgPoolOptions::new()
-        .max_connections(5)
-        .connect(&database_url)
-        .await.expect("Failed to create pool.");
+    let manager = ConnectionManager::<PgConnection>::new(&database_url);
+    let pool: Pool<ConnectionManager<PgConnection>> = Pool::builder()
+        .max_size(5)
+        .build(manager)
+        .expect("Failed to create pool.");
 
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
-            .data(database_url.clone())
+            .data(pool.clone())
             .route("/users", web::post().to(auth::signup))
             .route("/login", web::post().to(auth::login))
             .route("/tasks", web::get().to(handlers::tasks::get_tasks))
