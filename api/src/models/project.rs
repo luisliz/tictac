@@ -1,7 +1,7 @@
-// api/src/models/project.rs
+use diesel::prelude::*;
+use diesel::pg::PgConnection;
 use diesel::Queryable;
 use diesel::Insertable;
-use crate::schema::projects;
 
 #[derive(Queryable, Insertable)]
 #[table_name="projects"]
@@ -12,23 +12,23 @@ pub struct Project {
 }
 
 impl Project {
-    pub fn create(project: Project, connection: &MysqlConnection) -> QueryResult<usize> {
+    pub fn create(project: Project, connection: &PgConnection) -> QueryResult<Project> {
         diesel::insert_into(projects::table)
             .values(&project)
-            .execute(connection)
+            .get_result(connection)
     }
 
-    pub fn read(connection: &MysqlConnection) -> QueryResult<Vec<Project>> {
+    pub fn read(connection: &PgConnection) -> QueryResult<Vec<Project>> {
         projects::table.load::<Project>(connection)
     }
 
-    pub fn update(id: i32, project: Project, connection: &MysqlConnection) -> QueryResult<usize> {
+    pub fn update(id: i32, project: Project, connection: &PgConnection) -> QueryResult<usize> {
         diesel::update(projects::table.find(id))
             .set(&project)
             .execute(connection)
     }
 
-    pub fn delete(id: i32, connection: &MysqlConnection) -> QueryResult<usize> {
+    pub fn delete(id: i32, connection: &PgConnection) -> QueryResult<usize> {
         diesel::delete(projects::table.find(id))
             .execute(connection)
     }
