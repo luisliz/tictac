@@ -40,6 +40,9 @@ I'm not an expert in rust or flutter so please be careful, suggestions are welco
 
 ## Conclusions
 - Now I just have to spend a long time debugging the code and fixing the errors. I could leverage ai but I think it would be faster to do it myself.
- 
+
+### Pitfalls 
+- Some files it placed them in totally the wrong place. I had to rearrange a lot. 
+
 ### Results 
 TBD 
