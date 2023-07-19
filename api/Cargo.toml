@@ -1,4 +1,3 @@
-// api/Cargo.toml
 [package]
 name = "tictac_api"
 version = "0.1.0"

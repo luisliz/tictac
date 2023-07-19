@@ -1,4 +1,3 @@
-// api/src/main.rs
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
@@ -15,7 +14,7 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let pool: Pool = db::connect(&database_url);
+    let pool: Pool = db::connect(&database_url).await;
 
     HttpServer::new(move || {
         App::new()

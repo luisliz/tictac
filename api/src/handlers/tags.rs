@@ -1,4 +1,3 @@
-// api/src/handlers/tags.rs
 use actix_web::{web, HttpResponse, Responder};
 use crate::models::Tag;
 use crate::PoolType;
