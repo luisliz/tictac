@@ -1,3 +1,4 @@
+// api/src/models/project.rs
 #[derive(Queryable, Insertable)]
 #[table_name="projects"]
 pub struct Project {

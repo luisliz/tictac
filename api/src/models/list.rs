@@ -1,3 +1,4 @@
+// api/src/models/list.rs
 #[derive(Queryable, Insertable)]
 #[table_name="lists"]
 pub struct List {

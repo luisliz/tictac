@@ -3,28 +3,19 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
-// mod schema;
 mod auth;
 mod handlers;
+mod models;
+mod db;
 
-use crate::db;
+use crate::db::Pool;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let pool = db::connect().await?;
-    db::migrate(&pool).await?;
-
-    use diesel::pg::PgConnection;
-    use diesel::r2d2::{ConnectionManager, Pool};
-
     dotenv().ok();
 
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let manager = ConnectionManager::<PgConnection>::new(&database_url);
-    let pool: Pool<ConnectionManager<PgConnection>> = Pool::builder()
-        .max_size(5)
-        .build(manager)
-        .expect("Failed to create pool.");
+    let pool: Pool = db::connect(&database_url);
 
     HttpServer::new(move || {
         App::new()
@@ -47,7 +38,10 @@ async fn main() -> std::io::Result<()> {
             .route("/lists/{id}", web::put().to(handlers::lists::update_list))
             .route("/lists/{id}", web::delete().to(handlers::lists::delete_list))
     })
-    .bind("127.0.0.1:8080")?.run().await.expect("Http server failed");
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
+    .expect("Http server failed");
 
     Ok(())
 }

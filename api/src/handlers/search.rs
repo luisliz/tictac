@@ -1,3 +1,4 @@
+// api/src/handlers/search.rs
 use actix_web::{web, HttpResponse, Responder};
 use crate::PoolType;
 
@@ -6,7 +7,7 @@ use meilisearch_sdk::client::*;
 use meilisearch_sdk::tasks::Task;
 
 pub async fn search(db: web::Data<PoolType>, query: web::Query<String>) -> impl Responder {
-    let client = Client::new("http://localhost:7700", '');
+    let client = Client::new("http://localhost:7700", "YOUR_API_KEY");
     let tasks = client.get_or_create("tasks").await.unwrap();
 
     let results = tasks.search()

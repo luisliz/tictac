@@ -1,8 +1,7 @@
 // api/src/handlers/lists.rs
-use crate::models::list;
+use crate::models::List;
 use diesel::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
-use meilisearch_sdk::tasks::Task;
 
 pub async fn get_lists(db: web::Data<PoolType>) -> impl Responder {
     let result = List::read(&db.get().unwrap()).await.expect("Failed to fetch lists");
@@ -45,5 +44,3 @@ pub async fn get_tasks_by_list(db: web::Data<PoolType>, list_id: web::Path<i32>)
 
     HttpResponse::Ok().json(result)
 }
-
-// Implement get_list, create_list, update_list, delete_list similarly

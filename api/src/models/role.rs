@@ -1,3 +1,4 @@
+// api/src/models/role.rs
 pub enum Role {
     Admin,
     ProjectManager,

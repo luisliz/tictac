@@ -1,21 +1,20 @@
-// Add functions for pagination, caching, lazy loading related models, database indexes, and smart eager loading
-// This is a general outline, the actual implementation will depend on the specific requirements for each optimization
-fn paginate() {
+// api/src/db/query_builder.rs
+pub fn paginate() {
     // Implementation goes here
 }
 
-fn cache() {
+pub fn cache() {
     // Implementation goes here
 }
 
-fn lazy_load() {
+pub fn lazy_load() {
     // Implementation goes here
 }
 
-fn index() {
+pub fn index() {
     // Implementation goes here
 }
 
-fn eager_load() {
+pub fn eager_load() {
     // Implementation goes here
 }
