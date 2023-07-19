@@ -1,19 +1,16 @@
 // api/src/handlers/search.rs
 use actix_web::{web, HttpResponse, Responder};
 use crate::PoolType;
-use meilisearch_sdk::client::*;
-use meilisearch_sdk::search::SearchQuery;
-use meilisearch_sdk::tasks::Task;
+use crate::models::Task;
+use diesel::prelude::*;
 
 pub async fn search(db: web::Data<PoolType>, query: web::Query<String>) -> impl Responder {
-    let client = Client::new("http://localhost:7700", Some("YOUR_API_KEY".to_string()));
-    let tasks = client.get_or_create("tasks").await.unwrap();
+    use crate::schema::tasks::dsl::*;
 
-    let results = tasks.search()
-        .with_query(&query)
-        .execute::<Task>()
-        .await
-        .unwrap();
+    let connection = db.get_ref().get().unwrap();
+    let results = tasks.filter(title.like(format!("%{}%", query.into_inner())))
+        .load::<Task>(&connection)
+        .expect("Error loading tasks");
 
-    HttpResponse::Ok().json(results.hits)
+    HttpResponse::Ok().json(results)
 }

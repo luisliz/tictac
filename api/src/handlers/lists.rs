@@ -1,14 +1,17 @@
-// api/src/handlers/lists.rs
-use crate::models::List;
+use crate::models::list::List;
 use diesel::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
 use crate::db::Pool;
 
-pub async fn get_lists(db: web::Data<Pool>) -> impl Responder {
-    let connection = db.get().unwrap();
-    let result = List::read(&connection).await.expect("Failed to fetch lists");
+pub async fn get_lists(db: web::Data<PoolType>, user_id: web::Path<i32>) -> impl Responder {
+    use crate::schema::lists::dsl::*;
 
-    HttpResponse::Ok().json(result)
+    let connection = db.get_ref().get().unwrap();
+    let results = lists.filter(created_by.eq(user_id.into_inner()))
+        .load::<List>(&connection)
+        .expect("Error loading lists");
+
+    HttpResponse::Ok().json(results)
 }
 
 pub async fn create_list(db: web::Data<Pool>, list: web::Json<List>) -> impl Responder {
