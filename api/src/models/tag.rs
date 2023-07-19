@@ -2,6 +2,7 @@ use diesel::prelude::*;
 use diesel::pg::PgConnection;
 use diesel::Queryable;
 use diesel::Insertable;
+use crate::handlers::tags;
 
 #[derive(Queryable, Insertable)]
 #[table_name="tags"]

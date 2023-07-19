@@ -2,7 +2,8 @@
 use diesel::Queryable;
 use diesel::Insertable;
 use diesel::prelude::*;
-use diesel::pg::PgConnection;
+use diesel::Connection;
+use crate::schema::lists;
 
 #[derive(Queryable, Insertable)]
 #[table_name="lists"]
@@ -10,7 +11,7 @@ pub struct List {
     pub id: i32,
     pub name: String,
     pub user_id: i32,
-use diesel::Connection;
+}
 
 impl List {
     pub fn create<C: Connection>(list: List, connection: &C) -> QueryResult<List> {

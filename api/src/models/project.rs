@@ -1,7 +1,8 @@
 use diesel::prelude::*;
-use diesel::pg::PgConnection;
+use diesel::Connection;
 use diesel::Queryable;
 use diesel::Insertable;
+use crate::schema::projects;
 
 #[derive(Queryable, Insertable)]
 #[table_name="projects"]
@@ -9,7 +10,7 @@ pub struct Project {
     pub id: i32,
     pub name: String,
     pub description: String,
-use diesel::Connection;
+}
 
 impl Project {
     pub fn create<C: Connection>(project: Project, connection: &C) -> QueryResult<Project> {
