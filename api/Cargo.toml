@@ -1,3 +1,4 @@
+// api/Cargo.toml
 [package]
 name = "tictac_api"
 version = "0.1.0"
@@ -7,12 +8,11 @@ edition = "2018"
 [dependencies]
 actix-web = "3.3.2"
 dotenv = "0.15.0"
-sqlx = { version = "0.5.5", features = ["postgres", "runtime-actix-rustls"] }
+diesel = { version = "1.4.7", features = ["postgres"] }
 meilisearch-sdk = "0.24.1"
 futures = "0.3"
 serde = { version = "1.0", features = ["derive"] }
 tokio = {optional = true, version = "1.8.4"}
-diesel = { version = "2.1.0", features = ["postgres"] }
 bcrypt = "0.10.1"
 jsonwebtoken = "7.2.0"
 dotenvy = "0.15"
