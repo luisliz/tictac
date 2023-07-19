@@ -1,5 +1,6 @@
 CREATE TABLE tasks (
     id INT PRIMARY KEY,
+    completed BOOLEAN,
     title VARCHAR(255),
     description TEXT,
     due_date TIMESTAMP,
