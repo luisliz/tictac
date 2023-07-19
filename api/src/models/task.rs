@@ -1,4 +1,5 @@
-#[derive(Queryable)]
+#[derive(Queryable, Insertable)]
+#[table_name="tasks"]
 pub struct Task {
     pub id: i32,
     pub completed: bool,
