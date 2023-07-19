@@ -9,26 +9,26 @@ pub struct Project {
     pub id: i32,
     pub name: String,
     pub description: String,
-}
+use diesel::Connection;
 
 impl Project {
-    pub fn create(project: Project, connection: &PgConnection) -> QueryResult<Project> {
+    pub fn create<C: Connection>(project: Project, connection: &C) -> QueryResult<Project> {
         diesel::insert_into(projects::table)
             .values(&project)
             .get_result(connection)
     }
 
-    pub fn read(connection: &PgConnection) -> QueryResult<Vec<Project>> {
+    pub fn read<C: Connection>(connection: &C) -> QueryResult<Vec<Project>> {
         projects::table.load::<Project>(connection)
     }
 
-    pub fn update(id: i32, project: Project, connection: &PgConnection) -> QueryResult<usize> {
+    pub fn update<C: Connection>(id: i32, project: Project, connection: &C) -> QueryResult<usize> {
         diesel::update(projects::table.find(id))
             .set(&project)
             .execute(connection)
     }
 
-    pub fn delete(id: i32, connection: &PgConnection) -> QueryResult<usize> {
+    pub fn delete<C: Connection>(id: i32, connection: &C) -> QueryResult<usize> {
         diesel::delete(projects::table.find(id))
             .execute(connection)
     }
