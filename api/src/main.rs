@@ -9,8 +9,8 @@ mod handlers;
 
 use crate::db;
 
-#[actix_web::run]
-async fn run() -> std::io::Result<()> {
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
     let pool = db::connect().await?;
     db::migrate(&pool).await?;
 
@@ -50,9 +50,4 @@ async fn run() -> std::io::Result<()> {
     .bind("127.0.0.1:8080")?.run().await.expect("Http server failed");
 
     Ok(())
-}
-
-#[tokio::main]
-fn main() {
-    run().expect("Failed to run application");
 }

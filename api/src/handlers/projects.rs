@@ -1,5 +1,6 @@
 // api/src/handlers/projects.rs
 use actix_web::{web, HttpResponse, Responder};
+use diesel::prelude::*;
 use web::Data;
 
 pub async fn get_projects(db: Data<PoolType>) -> impl Responder {
