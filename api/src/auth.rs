@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use diesel::prelude::*;
 use crate::models::user::User;
 use crate::schema::users;
+use crate::db::DbPool;
 
 #[derive(Serialize)]
 struct Token {
@@ -17,7 +18,7 @@ struct Claims {
     sub: String,
 }
 
-pub async fn signup(user: web::Json<User>, db: web::Data<PgPool>) -> impl Responder {
+pub async fn signup(user: web::Json<User>, db: web::Data<DbPool>) -> impl Responder {
     let connection = db.get().unwrap();
     let new_user = User::new(user.username.clone(), user.name.clone(), user.email.clone(), user.password.clone());
     diesel::insert_into(users::table).values(&new_user).execute(&connection).unwrap();
@@ -25,7 +26,7 @@ pub async fn signup(user: web::Json<User>, db: web::Data<PgPool>) -> impl Respon
     HttpResponse::Ok().finish()
 }
 
-pub async fn login(user: web::Json<User>, db: web::Data<PgPool>) -> impl Responder {
+pub async fn login(user: web::Json<User>, db: web::Data<DbPool>) -> impl Responder {
     let connection = db.get().unwrap();
     let result = users::table.filter(users::username.eq(&user.username)).first::<User>(&connection);
 
