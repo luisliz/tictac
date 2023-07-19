@@ -6,11 +6,11 @@ edition = "2021"
 [dependencies]
 actix-web = "4.3.1"
 dotenv = "0.15.0"
-diesel = { version = "2.1.0", features = ["postgres"] }
 meilisearch-sdk = "0.24.1"
 futures = "0.3"
 serde = { version = "1.0", features = ["derive"] }
 tokio = {optional = true, version = "1.8.4"}
+diesel = { version = "2.1.0", features = ["postgres"] }
 bcrypt = "0.15.0"
 jsonwebtoken = "8.3.0"
 dotenvy = "0.15"

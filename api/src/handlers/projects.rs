@@ -55,3 +55,5 @@ pub async fn delete_project(db: Data<Pool>, project_id: web::Path<i32>) -> impl 
 
     HttpResponse::NoContent().finish()
 }
+
+// Implement create_project, get_project, update_project, delete_project similarly

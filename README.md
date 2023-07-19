@@ -5,8 +5,6 @@ I'm not an expert in rust or flutter so please be careful, suggestions are welco
 
 **This is a proof of concept, not a production ready app.**
 
-
-
 ## Goal 
 - To make a proof of concept of using ai tools and at the same time creating a self-hosted ticktick clone. 
 - Flutter and Rust were chosen because I wanted to learn them, but also because they get the most bang for the buck in terms of performance and cross-platform support.
@@ -36,12 +34,19 @@ I'm not an expert in rust or flutter so please be careful, suggestions are welco
 - I made a script that merges all of the files and passed that to **claude.ai** to see what I was missing and come up with a plan. I told it to divide into sprints by backend/ui and refined. 
 - Switched to gpt-3.5 to lower costs and give more context. 
 
+### Day 3 
+#### Cleanup and analyze the code aka Human analyzes the code
+- Here is where i'm reading and intervening. I'll probably use a little ai to make really big changes but mostly make the changes myself to see if it's more work to fix than to do the whole thing myself. 
+
 ## Conclusions
 - Now I just have to spend a long time debugging the code and fixing the errors. I could leverage ai but I think it would be faster to do it myself.
 
 ### Costs
-- ~ $15 gpt-4 api.
-- Day 1: 6 hours | Day 2: 6 hours (and counting)
+- ~ $20 gpt-4 api.
+- Day 1: 6 hours 
+- Day 2: 6 hours  
+- Day 3: 2 hours 
+- (and counting)
 
 ### Pitfalls 
 - Some files it placed them in totally the wrong place. I had to rearrange a lot. 

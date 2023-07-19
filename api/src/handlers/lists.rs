@@ -51,3 +51,5 @@ pub async fn get_tasks_by_list(db: web::Data<Pool>, list_id: web::Path<i32>) -> 
 
     HttpResponse::Ok().json(result)
 }
+
+// Implement get_list
