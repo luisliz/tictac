@@ -19,24 +19,26 @@ impl User {
         let password_hash = hash(password, DEFAULT_COST).unwrap();
         User { id: 0, username, name, email, password_hash }
     }
+use diesel::Connection;
 
-    pub fn create(user: User, connection: &PgConnection) -> QueryResult<User> {
+impl User {
+    pub fn create<C: Connection>(user: User, connection: &C) -> QueryResult<User> {
         diesel::insert_into(users::table)
             .values(&user)
             .get_result(connection)
     }
 
-    pub fn read(connection: &PgConnection) -> QueryResult<Vec<User>> {
+    pub fn read<C: Connection>(connection: &C) -> QueryResult<Vec<User>> {
         users::table.load::<User>(connection)
     }
 
-    pub fn update(id: i32, user: User, connection: &PgConnection) -> QueryResult<usize> {
+    pub fn update<C: Connection>(id: i32, user: User, connection: &C) -> QueryResult<usize> {
         diesel::update(users::table.find(id))
             .set(&user)
             .execute(connection)
     }
 
-    pub fn delete(id: i32, connection: &PgConnection) -> QueryResult<usize> {
+    pub fn delete<C: Connection>(id: i32, connection: &C) -> QueryResult<usize> {
         diesel::delete(users::table.find(id))
             .execute(connection)
     }

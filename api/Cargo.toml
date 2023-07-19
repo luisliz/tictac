@@ -5,8 +5,7 @@ edition = "2021"
 
 [dependencies]
 actix-web = {version = "4.3.1"}
-[dependencies]
-diesel = { version = "2.1.0", features = ["sqlite", "postgres", "r2d2", "postgres", "sqlite"] }
+diesel = { version = "2.1.0", features = ["sqlite", "postgres", "r2d2"] }
 dotenv = "0.15.0"
 meilisearch-sdk = "0.24.1"
 futures = "0.3"
