@@ -1,5 +1,3 @@
-use crate::models::Project;
-use sqlx::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
 use web::Data;
 

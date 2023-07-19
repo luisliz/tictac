@@ -1,13 +1,8 @@
-    use crate::models::User;
     use actix_web::{web, HttpResponse, Responder};
     use bcrypt::verify;
     use jsonwebtoken::{encode, EncodingKey, Header};
-    use serde::Serialize;
+    use serde::{Deserialize, Serialize};
     use sqlx::PgPool;
-    use diesel::prelude::*;
-    use diesel::dsl::insert_into;
-    use crate::schema::users::table as users;
-    use crate::schema::users::dsl::username;
 
     #[derive(Serialize)]
     struct Token {
