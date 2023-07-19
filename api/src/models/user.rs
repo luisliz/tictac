@@ -1,4 +1,5 @@
 use bcrypt::{hash, DEFAULT_COST};
+use diesel::Queryable;
 
 #[derive(Queryable)]
 pub struct User {

@@ -1,8 +1,5 @@
-// api/src/handlers/users.rs
 use actix_web::{web, HttpResponse, Responder};
 use bcrypt::{hash, DEFAULT_COST};
-use jsonwebtoken::{encode, EncodingKey, Header};
-use serde::{Deserialize, Serialize};
 use diesel::prelude::*;
 use diesel::PgPool;
 
@@ -18,15 +15,15 @@ struct Claims {
 
 pub async fn signup(user: web::Json<User>, db: web::Data<PgPool>) -> impl Responder {
     let connection = db.get().unwrap();
-    let new_user = User::new(user.name.clone(), user.email.clone(), user.password.clone());
-    diesel::insert_into(users).values(&new_user).execute(&connection).unwrap();
+    let new_user = User::new(user.username.clone(), user.name.clone(), user.email.clone(), user.password.clone());
+    diesel::insert_into(users::table).values(&new_user).execute(&connection).unwrap();
 
     HttpResponse::Ok().finish()
 }
 
 pub async fn login(user: web::Json<User>, db: web::Data<PgPool>) -> impl Responder {
     let connection = db.get().unwrap();
-    let result = users.filter(username.eq(&user.username)).first::<User>(&connection);
+    let result = users::table.filter(users::username.eq(&user.username)).first::<User>(&connection);
 
     match result {
         Ok(user_from_db) => {

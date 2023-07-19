@@ -1,3 +1,6 @@
+use diesel::Queryable;
+use diesel::Insertable;
+
 #[derive(Queryable, Insertable)]
 #[table_name="tasks"]
 pub struct Task {
