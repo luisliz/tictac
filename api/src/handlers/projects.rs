@@ -4,6 +4,7 @@ use diesel::prelude::*;
 use web::Data;
 use crate::db::Pool;
 use crate::models::project::Project;
+use crate::schema::projects;
 
 pub async fn get_projects(db: Data<Pool>) -> impl Responder {
     let connection = db.get().unwrap();

@@ -1,8 +1,9 @@
 use bcrypt::{hash, DEFAULT_COST};
 use diesel::prelude::*;
-use diesel::pg::PgConnection;
+use diesel::Connection;
 use diesel::Queryable;
 use diesel::Insertable;
+use crate::schema::users;
 
 #[derive(Queryable, Insertable)]
 #[table_name="users"]
@@ -19,9 +20,6 @@ impl User {
         let password_hash = hash(password, DEFAULT_COST).unwrap();
         User { id: 0, username, name, email, password_hash }
     }
-use diesel::Connection;
-
-impl User {
     pub fn create<C: Connection>(user: User, connection: &C) -> QueryResult<User> {
         diesel::insert_into(users::table)
             .values(&user)
