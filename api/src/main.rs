@@ -1,32 +1,28 @@
 use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
+use diesel::prelude::*;
+use diesel::r2d2::{self, ConnectionManager};
+use crate::db::Pool;
 
-mod models;
-mod schema;
 mod auth;
 mod handlers;
+mod models;
+mod db;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-use sqlx::postgres::PgPoolOptions;
-use meilisearch_sdk::client::*;
+    dotenv().ok();
 
-dotenv().ok();
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    let pool: Pool = r2d2::Pool::builder()
+        .build(manager)
+        .expect("Failed to create pool.");
 
-let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-let pool = PgPoolOptions::new()
-    .max_connections(5)
-    .connect(&database_url)
-    .await
-    .expect("Failed to create pool.");
-
-let meilisearch_url = env::var("MEILISEARCH_URL").expect("MEILISEARCH_URL must be set");
-let meilisearch_client = Client::new(&meilisearch_url, "");
-
-    HttpServer::new(|| {
+    HttpServer::new(move || {
         App::new()
-            .data(database_url.clone())
+            .data(pool.clone())
             .route("/users", web::post().to(auth::signup))
             .route("/login", web::post().to(auth::login))
             .route("/tasks", web::get().to(handlers::tasks::get_tasks))
@@ -48,4 +44,7 @@ let meilisearch_client = Client::new(&meilisearch_url, "");
     .bind("127.0.0.1:8080")?
     .run()
     .await
+    .expect("Http server failed");
+
+    Ok(())
 }
