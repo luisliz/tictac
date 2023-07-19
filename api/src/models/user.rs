@@ -15,4 +15,3 @@ impl User {
         User { id: 0, username, name, email, password_hash }
     }
 }
-
