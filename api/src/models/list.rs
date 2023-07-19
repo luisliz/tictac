@@ -1,4 +1,8 @@
 // api/src/models/list.rs
+use diesel::Queryable;
+use diesel::Insertable;
+use crate::schema::lists;
+
 #[derive(Queryable, Insertable)]
 #[table_name="lists"]
 pub struct List {

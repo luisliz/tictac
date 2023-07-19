@@ -1,4 +1,8 @@
 // api/src/models/project.rs
+use diesel::Queryable;
+use diesel::Insertable;
+use crate::schema::projects;
+
 #[derive(Queryable, Insertable)]
 #[table_name="projects"]
 pub struct Project {

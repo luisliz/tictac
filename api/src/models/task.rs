@@ -1,5 +1,8 @@
+// api/src/models/task.rs
 use diesel::Queryable;
 use diesel::Insertable;
+use chrono::{DateTime, Utc};
+use crate::schema::tasks;
 
 #[derive(Queryable, Insertable)]
 #[table_name="tasks"]

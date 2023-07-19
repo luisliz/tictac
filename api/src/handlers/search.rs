@@ -1,7 +1,6 @@
 // api/src/handlers/search.rs
 use actix_web::{web, HttpResponse, Responder};
 use crate::PoolType;
-
 use meilisearch_sdk::client::*;
 use meilisearch_sdk::search::SearchQuery;
 use meilisearch_sdk::tasks::Task;
