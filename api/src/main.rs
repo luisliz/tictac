@@ -1,4 +1,6 @@
 use actix_web::{web, App, HttpServer};
+use diesel::r2d2::{self, ConnectionManager};
+use diesel::PgConnection;
 use dotenv::dotenv;
 use std::env;
 use diesel::prelude::*;
@@ -10,12 +12,12 @@ mod handlers;
 mod models;
 mod db;
 
-fn initialize_db_pool() -> DbPool {
-    let conn_spec = std::env::var("DATABASE_URL").expect("DATABASE_URL should be set");
-    let manager = r2d2::ConnectionManager::<SqliteConnection>::new(conn_spec);
+fn initialize_db_pool() -> r2d2::Pool<ConnectionManager<PgConnection>> {
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
     r2d2::Pool::builder()
         .build(manager)
-        .expect("database URL should be valid path to SQLite DB file")
+        .expect("Failed to create pool.")
 }
 
 #[actix_web::main]
