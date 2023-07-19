@@ -12,7 +12,7 @@ class _TodayViewState extends State<TodayView> {
   @override
   void initState() {
     super.initState();
-    tasks = apiService.getTasks();
+    tasks = apiService.getTodaysTasks();
   }
 
   @override

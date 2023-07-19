@@ -12,7 +12,7 @@ class _UpcomingViewState extends State<UpcomingView> {
   @override
   void initState() {
     super.initState();
-    tasks = apiService.getTasks();
+    tasks = apiService.getUpcomingTasks();
   }
 
   @override
