@@ -1,6 +1,7 @@
 use crate::models::list;
 use sqlx::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
+use meilisearch_sdk::tasks::Task;
 
 pub async fn get_lists(db: web::Data<PoolType>) -> impl Responder {
     let result = List::read(db.get_ref()).await;
@@ -61,6 +62,5 @@ pub async fn get_tasks_by_list(db: web::Data<PoolType>, list_id: web::Path<i32>)
         _ => HttpResponse::InternalServerError().into(),
     }
 }
-    }
 
-    // Implement get_list, create_list, update_list, delete_list similarly
+// Implement get_list, create_list, update_list, delete_list similarly

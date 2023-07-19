@@ -2,12 +2,17 @@ use actix_web::{web, App, HttpServer};
 use dotenv::dotenv;
 use std::env;
 
-mod schema;
+// mod schema;
 mod auth;
-mod handlers; // Added this line to import the handlers module
+mod handlers;
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
+use crate::db;
+
+#[actix_web::run]
+async fn run() -> std::io::Result<()> {
+    let pool = db::connect().await?;
+    db::migrate(&pool).await?;
+
     use sqlx::postgres::PgPoolOptions;
 
     dotenv().ok();
@@ -16,8 +21,7 @@ async fn main() -> std::io::Result<()> {
     let pool = PgPoolOptions::new()
         .max_connections(5)
         .connect(&database_url)
-        .await
-        .expect("Failed to create pool.");
+        .await.expect("Failed to create pool.");
 
     HttpServer::new(|| {
         App::new()
@@ -40,17 +44,12 @@ async fn main() -> std::io::Result<()> {
             .route("/lists/{id}", web::put().to(handlers::lists::update_list))
             .route("/lists/{id}", web::delete().to(handlers::lists::delete_list))
     })
-    .bind("127.0.0.1:8080")?
-    .run()
-    .await
+    .bind("127.0.0.1:8080")?.run().await.expect("Http server failed");
+
+    Ok(())
 }
 
-use crate::db;
-
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let pool = db::connect().await?;
-    db::migrate(&pool).await?;
-    // rest of your application startup code
-    Ok(())
+fn main() {
+    run().expect("Failed to run application");
 }

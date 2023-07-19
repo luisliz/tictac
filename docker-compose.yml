@@ -5,6 +5,6 @@
         ports:
           - "80:80"
       frontend:
-        build: ./ui
+        build: ui
         ports:
           - "8080:8080"
