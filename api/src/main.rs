@@ -12,8 +12,15 @@ mod schema;
 type DbPool = r2d2::Pool<r2d2::ConnectionManager<SqliteConnection>>;
 
 fn initialize_db_pool() -> DbPool {
+    let database_type = env::var("DATABASE_TYPE").expect("DATABASE_TYPE must be set");
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
-    let manager = r2d2::ConnectionManager::<SqliteConnection>::new(database_url);
+
+    let manager = match database_type.as_str() {
+        "postgres" => r2d2::ConnectionManager::<diesel::PgConnection>::new(database_url),
+        "sqlite" => r2d2::ConnectionManager::<diesel::SqliteConnection>::new(database_url),
+        _ => panic!("Unsupported DATABASE_TYPE. Use either 'postgres' or 'sqlite'."),
+    };
+
     r2d2::Pool::builder()
         .build(manager)
         .expect("Failed to create pool.")
