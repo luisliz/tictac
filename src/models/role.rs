@@ -20,10 +20,7 @@ impl Role {
     }
 
     pub fn can_create_projects(&self) -> bool {
-        match self {
-            Role::Admin | Role::ProjectManager => true,
-            _ => false,
-        }
+        true
     }
 
     // Add similar methods for other permissions
