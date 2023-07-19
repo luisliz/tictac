@@ -1,4 +1,11 @@
-#[derive(Queryable)]
+// api/src/models/task.rs
+use diesel::Queryable;
+use diesel::Insertable;
+use chrono::{DateTime, Utc};
+use crate::schema::tasks;
+
+#[derive(Queryable, Insertable)]
+#[table_name="tasks"]
 pub struct Task {
     pub id: i32,
     pub completed: bool,

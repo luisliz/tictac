@@ -1,12 +1,13 @@
-use sqlx::{sqlite::SqliteConnectOptions, ConnectOptions, SqlitePool};
+// api/src/db.rs
+use diesel::r2d2::{self, ConnectionManager};
+use diesel::PgConnection;
 use std::env;
 
-pub async fn connect() -> Result<SqlitePool, sqlx::Error> {
-    let db_url = env::var("DATABASE_URL").unwrap_or_else(|_| "sqlite:./sql.db".to_string());
-    let options = SqliteConnectOptions::from_str(&db_url)?.create_if_missing(true);
-    SqlitePool::connect_with(options).await
-}
+pub type Pool = r2d2::Pool<ConnectionManager<PgConnection>>;
 
-pub async fn migrate(pool: &SqlitePool) -> Result<(), sqlx::Error> {
-    sqlx::migrate!("./migrations").run(pool).await
+pub async fn connect(database_url: &str) -> Pool {
+    let manager = ConnectionManager::<PgConnection>::new(database_url);
+    r2d2::Pool::builder()
+        .build(manager)
+        .expect("Failed to create pool.")
 }

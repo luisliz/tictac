@@ -1,42 +1,53 @@
-use crate::models::list;
-use sqlx::prelude::*;
+// api/src/handlers/lists.rs
+use crate::models::List;
+use diesel::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
+use crate::db::Pool;
 
-pub async fn get_lists(db: web::Data<PoolType>) -> impl Responder {
-    let result = sqlx::query_as::<_, List>("SELECT * FROM lists WHERE created_by = $1 AND archived = false")
-        .bind(user_id)
-        .fetch_all(db.get_ref())
-        .await;
+pub async fn get_lists(db: web::Data<Pool>) -> impl Responder {
+    let connection = db.get().unwrap();
+    let result = List::read(&connection).await.expect("Failed to fetch lists");
 
-    match result {
-        Ok(lists) => HttpResponse::Ok().json(lists),
-        _ => HttpResponse::InternalServerError().into(),
-    }
+    HttpResponse::Ok().json(result)
 }
 
-pub async fn reorder_tasks(db: web::Data<PoolType>, list_id: web::Path<i32>, new_order: web::Json<Vec<i32>>) -> impl Responder {
-    let result = sqlx::query("UPDATE tasks SET order = new_order WHERE list_id = $1")
+pub async fn create_list(db: web::Data<Pool>, list: web::Json<List>) -> impl Responder {
+    let connection = db.get().unwrap();
+    let result = List::create(list.into_inner(), &connection).await.expect("Failed to create list");
+
+    HttpResponse::Created().finish()
+}
+
+pub async fn update_list(db: web::Data<Pool>, list_id: web::Path<i32>, list: web::Json<List>) -> impl Responder {
+    let connection = db.get().unwrap();
+    let result = List::update(list_id.into_inner(), list.into_inner(), &connection).await.expect("Failed to update list");
+
+    HttpResponse::Ok().finish()
+}
+
+pub async fn delete_list(db: web::Data<Pool>, list_id: web::Path<i32>) -> impl Responder {
+    let connection = db.get().unwrap();
+    let result = List::delete(list_id.into_inner(), &connection).await.expect("Failed to delete list");
+
+    HttpResponse::NoContent().finish()
+}
+
+pub async fn reorder_tasks(db: web::Data<Pool>, list_id: web::Path<i32>, new_order: web::Json<Vec<i32>>) -> impl Responder {
+    let connection = db.get().unwrap();
+    let result = diesel::sql_query("UPDATE tasks SET order = new_order WHERE list_id = $1")
         .bind(list_id.into_inner())
-        .execute(db.get_ref())
-        .await;
+        .execute(&connection)
+        .expect("Failed to reorder tasks");
 
-    match result {
-        Ok(_) => HttpResponse::Ok().into(),
-        _ => HttpResponse::InternalServerError().into(),
-    }
+    HttpResponse::Ok().finish()
 }
 
-pub async fn get_tasks_by_list(db: web::Data<PoolType>, list_id: web::Path<i32>) -> impl Responder {
-    let result = sqlx::query_as::<_, Task>("SELECT * FROM tasks WHERE list_id = $1 ORDER BY order")
+pub async fn get_tasks_by_list(db: web::Data<Pool>, list_id: web::Path<i32>) -> impl Responder {
+    let connection = db.get().unwrap();
+    let result = diesel::sql_query("SELECT * FROM tasks WHERE list_id = $1 ORDER BY order")
         .bind(list_id.into_inner())
-        .fetch_all(db.get_ref())
-        .await;
+        .load::<Task>(&connection)
+        .expect("Failed to fetch tasks");
 
-    match result {
-        Ok(tasks) => HttpResponse::Ok().json(tasks),
-        _ => HttpResponse::InternalServerError().into(),
-    }
+    HttpResponse::Ok().json(result)
 }
-    }
-
-    // Implement get_list, create_list, update_list, delete_list similarly

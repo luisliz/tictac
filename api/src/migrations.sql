@@ -1,5 +1,6 @@
 CREATE TABLE tasks (
     id INT PRIMARY KEY,
+    completed BOOLEAN,
     title VARCHAR(255),
     description TEXT,
     due_date TIMESTAMP,
@@ -20,4 +21,12 @@ CREATE TABLE lists (
     id INT PRIMARY KEY,
     name VARCHAR(255),
     created_by INT
+);
+
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    username VARCHAR(255),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    password_hash VARCHAR(255)
 );
