@@ -34,12 +34,14 @@ I'm not an expert in rust or flutter so please be careful, suggestions are welco
 ### Day 2 
 #### Design 
 - I made a script that merges all of the files and passed that to **claude.ai** to see what I was missing and come up with a plan. I told it to divide into sprints by backend/ui and refined. 
-### Costs
-- ~ $15 gpt-4 api.
-- Day 1: 6 hours | Day 2: 4 hours (and counting)
+- Switched to gpt-3.5 to lower costs and give more context. 
 
 ## Conclusions
 - Now I just have to spend a long time debugging the code and fixing the errors. I could leverage ai but I think it would be faster to do it myself.
+
+### Costs
+- ~ $15 gpt-4 api.
+- Day 1: 6 hours | Day 2: 6 hours (and counting)
 
 ### Pitfalls 
 - Some files it placed them in totally the wrong place. I had to rearrange a lot. 
