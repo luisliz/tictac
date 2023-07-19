@@ -1,17 +1,9 @@
-<<<<<<< HEAD
-// api/src/models/tag.rs
-use diesel::Queryable;
-use crate::schema::tags;
-
-#[derive(Queryable)]
-=======
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 use diesel::Queryable;
 use diesel::Insertable;
 
 #[derive(Queryable, Insertable)]
->>>>>>> 2034ec7 (aider: work in progress)
 #[table_name="tags"]
 pub struct Tag {
     pub id: i32,

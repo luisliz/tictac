@@ -1,8 +1,7 @@
 // api/src/handlers/search.rs
 use actix_web::{web, HttpResponse, Responder};
-use crate::PoolType;
-use crate::models::Task;
 use diesel::prelude::*;
+use crate::models::task::Task;
 
 pub async fn search(db: web::Data<PoolType>, query: web::Query<String>) -> impl Responder {
     use crate::schema::tasks::dsl::*;

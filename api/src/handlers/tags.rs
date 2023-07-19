@@ -1,6 +1,6 @@
 use actix_web::{web, HttpResponse, Responder};
-use crate::models::Tag;
-use crate::PoolType;
+use crate::handlers::tags;
+use crate::models::tag::Tag;
 
 pub async fn get_tags(db: web::Data<PoolType>) -> impl Responder {
     let connection = db.get().unwrap();

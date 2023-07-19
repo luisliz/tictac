@@ -4,8 +4,8 @@ use bcrypt::verify;
 use jsonwebtoken::{encode, EncodingKey, Header};
 use serde::{Deserialize, Serialize};
 use diesel::prelude::*;
-use diesel::pg::PgPool;
 use crate::models::user::User;
+use crate::schema::users;
 
 #[derive(Serialize)]
 struct Token {

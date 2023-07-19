@@ -1,7 +1,6 @@
 // api/src/models/list.rs
 use diesel::Queryable;
 use diesel::Insertable;
-use crate::schema::lists;
 use diesel::prelude::*;
 use diesel::pg::PgConnection;
 

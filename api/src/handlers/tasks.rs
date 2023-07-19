@@ -1,8 +1,8 @@
 // api/src/handlers/tasks.rs
-use crate::models::Task;
 use diesel::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
 use crate::db::Pool;
+use crate::models::task::Task;
 
 pub async fn get_tasks(db: web::Data<Pool>) -> impl Responder {
     let connection = db.get().unwrap();
