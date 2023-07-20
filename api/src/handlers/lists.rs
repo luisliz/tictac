@@ -2,8 +2,9 @@ use crate::models::list::List;
 use diesel::prelude::*;
 use actix_web::{web, HttpResponse, Responder};
 use crate::db::Pool;
+use crate::models::task::Task;
 
-pub async fn get_lists(db: web::Data<PoolType>, user_id: web::Path<i32>) -> impl Responder {
+pub async fn get_lists(db: web::Data<Pool>, user_id: web::Path<i32>) -> impl Responder {
     use crate::schema::lists::dsl::*;
 
     let connection = db.get_ref().get().unwrap();

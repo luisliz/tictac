@@ -1,8 +1,9 @@
+import 'dart:html';
 import 'dart:js' as js;
 import 'dart:typed_data';
 
 class WasmLoader {
-  js.JsObject _wasmModule;
+  late js.JsObject _wasmModule;
 
   Future<void> loadModule(String path) async {
     final response = await HttpRequest.request(

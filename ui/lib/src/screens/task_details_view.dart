@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../services/tasks.dart';
+
 class TaskDetailsView extends StatefulWidget {
   @override
   _TaskDetailsViewState createState() => _TaskDetailsViewState();

@@ -6,11 +6,10 @@ use diesel::Connection;
 use crate::schema::lists;
 
 #[derive(Queryable, Insertable)]
-#[table_name="lists"]
+#[diesel(table_name=lists)]
 pub struct List {
     pub id: i32,
     pub name: String,
-    pub user_id: i32,
 }
 
 impl List {

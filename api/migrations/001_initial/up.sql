@@ -12,6 +12,27 @@ CREATE TABLE tasks
     created_by  INT
 );
 
+CREATE TABLE tags
+(
+    id   INT PRIMARY KEY,
+    name VARCHAR(255),
+    color VARCHAR(255)
+);
+
+CREATE TABLE user_tags
+(
+    user_id INT,
+    tag_id  INT,
+    PRIMARY KEY (user_id, tag_id)
+);
+
+CREATE TABLE task_tags
+(
+    task_id INT,
+    tag_id  INT,
+    PRIMARY KEY (task_id, tag_id)
+);
+
 CREATE TABLE projects
 (
     id          INT PRIMARY KEY,
@@ -56,18 +77,7 @@ CREATE TABLE user_tasks
     PRIMARY KEY (user_id, task_id)
 );
 
-CREATE TABLE tags
-(
-    id   INT PRIMARY KEY,
-    name VARCHAR(255)
-);
 
-CREATE TABLE task_tags
-(
-    task_id INT,
-    tag_id  INT,
-    PRIMARY KEY (task_id, tag_id)
-);
 
 CREATE TABLE comments
 (

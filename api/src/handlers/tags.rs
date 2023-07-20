@@ -1,8 +1,10 @@
 use actix_web::{web, HttpResponse, Responder};
-use crate::handlers::tags;
-use crate::models::tag::Tag;
+use crate::db::Pool;
+use crate::models::tags::Tag;
+use crate::models::task::Task;
+use crate::schema::tags;
 
-pub async fn get_tags(db: web::Data<PoolType>) -> impl Responder {
+pub async fn get_tags(db: web::Data<Pool>) -> impl Responder {
     let connection = db.get().unwrap();
     let result = diesel::sql_query("SELECT * FROM tags")
         .load::<Tag>(&connection)
@@ -11,7 +13,7 @@ pub async fn get_tags(db: web::Data<PoolType>) -> impl Responder {
     HttpResponse::Ok().json(result)
 }
 
-pub async fn create_tag(db: web::Data<PoolType>, tag: web::Json<Tag>) -> impl Responder {
+pub async fn create_tag(db: web::Data<Pool>, tag: web::Json<Tag>) -> impl Responder {
     let connection = db.get().unwrap();
     let result = diesel::insert_into(tags::table)
         .values(&tag.into_inner())
@@ -21,7 +23,7 @@ pub async fn create_tag(db: web::Data<PoolType>, tag: web::Json<Tag>) -> impl Re
     HttpResponse::Created().finish()
 }
 
-pub async fn update_tag(db: web::Data<PoolType>, tag_id: web::Path<i32>, tag: web::Json<Tag>) -> impl Responder {
+pub async fn update_tag(db: web::Data<Pool>, tag_id: web::Path<i32>, tag: web::Json<Tag>) -> impl Responder {
     let connection = db.get().unwrap();
     let result = diesel::sql_query("UPDATE tags SET name = $1 WHERE id = $2")
         .bind(&tag.name)
@@ -32,7 +34,7 @@ pub async fn update_tag(db: web::Data<PoolType>, tag_id: web::Path<i32>, tag: we
     HttpResponse::Ok().finish()
 }
 
-pub async fn delete_tag(db: web::Data<PoolType>, tag_id: web::Path<i32>) -> impl Responder {
+pub async fn delete_tag(db: web::Data<Pool>, tag_id: web::Path<i32>) -> impl Responder {
     let connection = db.get().unwrap();
     let result = diesel::sql_query("DELETE FROM tags WHERE id = $1")
         .bind(tag_id.into_inner())
@@ -42,7 +44,7 @@ pub async fn delete_tag(db: web::Data<PoolType>, tag_id: web::Path<i32>) -> impl
     HttpResponse::NoContent().finish()
 }
 
-pub async fn get_tasks_by_tag(db: web::Data<PoolType>, tag_id: web::Path<i32>) -> impl Responder {
+pub async fn get_tasks_by_tag(db: web::Data<Pool>, tag_id: web::Path<i32>) -> impl Responder {
     let connection = db.get().unwrap();
     let result = diesel::sql_query("SELECT * FROM tasks WHERE id IN (SELECT task_id FROM task_tags WHERE tag_id = $1)")
         .bind(tag_id.into_inner())

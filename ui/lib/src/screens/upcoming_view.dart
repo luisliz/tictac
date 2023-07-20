@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/tasks.dart';
 
 class UpcomingView extends StatefulWidget {
   @override
@@ -7,7 +8,7 @@ class UpcomingView extends StatefulWidget {
 
 class _UpcomingViewState extends State<UpcomingView> {
   final ApiService apiService = ApiService('http://localhost:8000');
-  Future<List<dynamic>> tasks;
+  late Future<List<dynamic>> tasks;
 
   @override
   void initState() {

@@ -87,4 +87,6 @@ class ApiService {
       throw Exception('Failed to delete task');
     }
   }
+
+  Future<List> getUpcomingTasks() {}
 }

@@ -5,7 +5,7 @@ use diesel::Insertable;
 use crate::schema::projects;
 
 #[derive(Queryable, Insertable)]
-#[table_name="projects"]
+#[diesel(table_name=projects)]
 pub struct Project {
     pub id: i32,
     pub name: String,

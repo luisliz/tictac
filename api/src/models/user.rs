@@ -6,7 +6,7 @@ use diesel::Insertable;
 use crate::schema::users;
 
 #[derive(Queryable, Insertable)]
-#[table_name="users"]
+#[diesel(table_name=users)]
 pub struct User {
     pub id: i32,
     pub username: String,
@@ -36,7 +36,7 @@ impl User {
             .execute(connection)
     }
 
-    pub fn delete<C: Connection>(id: i32, connection: &C) -> QueryResult<usize> {
+    pub fn delete<C: Connection>(id: i32, connection: &mut C) -> QueryResult<usize> {
         diesel::delete(users::table.find(id))
             .execute(connection)
     }
